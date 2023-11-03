@@ -1,0 +1,76 @@
+2023-11-02 16:37:53 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+2023-11-02 16:37:53 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+2023-11-02 16:38:01 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+2023-11-02 16:38:01 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1740:16)
+    at listenInCluster (node:net:1788:12)
+    at Server.listen (node:net:1876:7)
+    at Object.start (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/index.ts:272:12)
+    at async /Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:62:17
+    at async Start.run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/src/commands/start.ts:58:9)
+    at async Start._run (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/command.js:80:22)
+    at async Config.runCommand (/Users/lipeng/workspaces/github.com/vincent-pli/flowise_engine/packages/server/node_modules/@oclif/core/lib/config/config.js:301:25)

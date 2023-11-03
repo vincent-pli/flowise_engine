@@ -1,0 +1,30 @@
+# from Dockerfile-base
+FROM docker.io/vincentpli/flowise-engine-base:v0.1
+
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+WORKDIR /usr/src/packages
+
+# Copy root package.json and lockfile
+COPY package.json yarn.loc[k] ./
+#COPY package.json ./
+# Copy server package.json
+COPY packages/server/package.json ./packages/server/package.json
+
+#RUN yarn config set registry https://registry.npmmirror.com
+RUN yarn install
+# Copy app source
+COPY . .
+
+RUN yarn build
+
+# reduce image size in stage 1
+FROM docker.io/vincentpli/flowise-engine-base:v0.1
+WORKDIR /opt/startchain
+RUN mkdir -p /opt/startchain
+COPY --from=0 /usr/src/packages /opt/startchain
+
+EXPOSE 3000
+
+CMD [ "yarn", "start" ]
+
+# docker build -t registry.jihulab.com/opencsg/starchain:vx.x.x -f Dockerfile .
