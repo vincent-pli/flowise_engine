@@ -56,6 +56,10 @@ export interface ITool {
     owner: string
 }
 
+export interface IActiveCache {
+    [key: string]: Map<any, any>
+}
+
 export interface IComponentNodes {
     [key: string]: INode
 }

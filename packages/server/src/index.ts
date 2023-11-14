@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express'
-import jwt from 'jsonwebtoken'
 import multer from 'multer'
 import path from 'path'
 import cors from 'cors'
@@ -28,9 +27,11 @@ import {
     isVectorStoreFaiss,
     getNodeFilePath
 } from './utils'
+import { getDataSource } from './DataSource'
+import { initCredential } from './DataSource'
 import { NodesPool } from './NodesPool'
-// import { ChatFlow } from './entity/ChatFlow'
 import { ChatflowPool } from './ChatflowPool'
+import { CachePool } from './CachePool'
 
 const Layer = require('express/lib/router/layer')
 
@@ -57,18 +58,40 @@ export class App {
     app: express.Application
     nodesPool: NodesPool
     chatflowPool: ChatflowPool
+    AppDataSource = getDataSource()
+    cachePool: CachePool
+    parsedFlowData: IReactFlowObject
 
     constructor() {
         this.app = express()
     }
 
-    async init() {        
-        // Initialize pools
-        this.nodesPool = new NodesPool()
-        await this.nodesPool.initialize()
+    async initDatabase() {
+        // Initialize database
+        this.AppDataSource.initialize()
+            .then(async () => {
+                console.info('📦[server]: Data Source has been initialized!')
 
-        this.chatflowPool = new ChatflowPool()
+                // Initialize pools
+                this.nodesPool = new NodesPool()
+                await this.nodesPool.initialize()
 
+                this.chatflowPool = new ChatflowPool()
+                // Initialize cache pool
+                this.cachePool = new CachePool()
+
+                let confFile = path.join(__dirname, '..', 'config', 'conf.json')
+                let flowData = JSON.parse(fs.readFileSync(confFile, 'utf8'))
+                this.parsedFlowData = flowData
+                if (flowData.credentialRecords){
+                    // Initialize credentials
+                    initCredential(flowData.credentialRecords)
+                }
+
+            })
+            .catch((err) => {
+                console.error('❌[server]: Error during Data Source initialization:', err)
+            })
     }
 
     async config(socketIO?: Server) {
@@ -101,26 +124,6 @@ export class App {
     }
 
     /**
-     * Validate API Key
-     * @param {Request} req
-     * @param {Response} res
-     * @param {ChatFlow} chatflow
-     */
-    // async validateKey(req: Request, res: Response, chatflow: ChatFlow) {
-    //     const chatFlowApiKeyId = chatflow.apikeyid
-    //     const authorizationHeader = (req.headers['Authorization'] as string) ?? (req.headers['authorization'] as string) ?? ''
-
-    //     if (chatFlowApiKeyId && !authorizationHeader) return res.status(401).send(`Unauthorized`)
-
-    //     const suppliedKey = authorizationHeader.split(`Bearer `).pop()
-    //     if (chatFlowApiKeyId && suppliedKey) {
-    //         const keys = await getAPIKeys()
-    //         const apiSecret = keys.find((key) => key.id === chatFlowApiKeyId)?.apiSecret
-    //         if (!compareKeys(apiSecret, suppliedKey)) return res.status(401).send(`Unauthorized`)
-    //     }
-    // }
-
-    /**
      * Process Prediction
      * @param {Request} req
      * @param {Response} res
@@ -134,15 +137,10 @@ export class App {
 
             let nodeToExecuteData: INodeData
 
-            let flowData: string
+            // let flowData: string
 
-            let confFile = path.join(__dirname, '..', 'config', 'conf.json')
-            flowData = fs.readFileSync(confFile, 'utf8')
-
-            // TODO add key file
-            // if (!isInternal) {
-            //     await this.validateKey(req, res, chatflow)
-            // }
+            // let confFile = path.join(__dirname, '..', 'config', 'conf.json')
+            // flowData = fs.readFileSync(confFile, 'utf8')
 
             let isStreamValid = false
 
@@ -158,7 +156,7 @@ export class App {
             }
 
             /*** Get chatflows and prepare data  ***/
-            const parsedFlowData: IReactFlowObject = JSON.parse(flowData)
+            const parsedFlowData: IReactFlowObject = this.parsedFlowData
             const nodes = parsedFlowData.nodes
             const edges = parsedFlowData.edges
             const owner = 'pengLee'
@@ -204,7 +202,9 @@ export class App {
                     depthQueue,
                     this.nodesPool.componentVersionNodes,
                     incomingInput.question,
+                    this.AppDataSource,
                     incomingInput?.overrideConfig,
+                    this.cachePool
                 )
 
                 const nodeToExecute = reactFlowNodes.find((node: IReactFlowNode) => node.id === endingNodeId)
@@ -266,7 +266,7 @@ export async function start(): Promise<void> {
         }
     })
 
-    await serverApp.init()
+    await serverApp.initDatabase()
     await serverApp.config(io)
 
     server.listen(port, () => {

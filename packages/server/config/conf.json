@@ -1,1 +1,779 @@
-{"nodes":[{"width":300,"height":427,"id":"ChatGLM_LLMs_0","position":{"x":834.3150893087202,"y":-270.09449996301737},"type":"customNode","data":{"id":"ChatGLM_LLMs_0","label":"ChatGLM","name":"ChatGLM_LLMs","type":"ChatGLM","baseClasses":["ChatGLM","LLM","BaseLLM","BaseLanguageModel"],"category":"LLMs","description":"ChatGLM large language models","inputParams":[{"label":"Api Key","name":"api_key","type":"password","id":"ChatGLM_LLMs_0-input-api_key-password"},{"label":"Model Name","name":"modelName","type":"options","options":[{"label":"chatglm_pro","name":"chatglm_pro"},{"label":"chatglm_std","name":"chatglm_std"},{"label":"chatglm_lite","name":"chatglm_lite"}],"default":"chatglm_std","id":"ChatGLM_LLMs_0-input-modelName-options"},{"label":"Temperature","name":"temperature","type":"number","description":"Temperature parameter may not apply to certain model. Please check available model parameters","optional":true,"additionalParams":true,"id":"ChatGLM_LLMs_0-input-temperature-number"},{"label":"Top Probability","name":"topP","type":"number","description":"Top Probability parameter may not apply to certain model. Please check available model parameters","optional":true,"additionalParams":true,"id":"ChatGLM_LLMs_0-input-topP-number"}],"inputAnchors":[],"inputs":{"modelName":"chatglm_std","temperature":"","topP":"","api_key":"5bc7c80c1411252ed14b0af59839a24a.MDK1iUBNq24hWl1Q"},"outputAnchors":[{"id":"ChatGLM_LLMs_0-output-ChatGLM_LLMs-ChatGLM|LLM|BaseLLM|BaseLanguageModel","name":"ChatGLM_LLMs","label":"ChatGLM","type":"ChatGLM | LLM | BaseLLM | BaseLanguageModel"}],"outputs":{},"selected":false},"selected":false,"positionAbsolute":{"x":834.3150893087202,"y":-270.09449996301737},"dragging":false},{"width":300,"height":534,"id":"promptTemplate_0","position":{"x":845.3043467142669,"y":184.01061727718195},"type":"customNode","data":{"id":"promptTemplate_0","label":"Prompt Template","name":"promptTemplate","type":"PromptTemplate","baseClasses":["PromptTemplate","BaseStringPromptTemplate","BasePromptTemplate"],"category":"Prompts","description":"Schema to represent a basic prompt for an LLM","inputParams":[{"label":"Template","name":"template","type":"string","rows":4,"placeholder":"What is a good name for a company that makes {product}?","id":"promptTemplate_0-input-template-string"},{"label":"Format Prompt Values","name":"promptValues","type":"string","rows":4,"placeholder":"{\n  \"input_language\": \"English\",\n  \"output_language\": \"French\"\n}","optional":true,"acceptVariable":true,"list":true,"id":"promptTemplate_0-input-promptValues-string"}],"inputAnchors":[],"inputs":{"template":"{input}","promptValues":""},"outputAnchors":[{"id":"promptTemplate_0-output-promptTemplate-PromptTemplate|BaseStringPromptTemplate|BasePromptTemplate","name":"promptTemplate","label":"PromptTemplate","type":"PromptTemplate | BaseStringPromptTemplate | BasePromptTemplate"}],"outputs":{},"selected":false},"selected":false,"positionAbsolute":{"x":845.3043467142669,"y":184.01061727718195},"dragging":false},{"width":300,"height":407,"id":"llmChain_0","position":{"x":1375.7714911790354,"y":13.572682849463803},"type":"customNode","data":{"id":"llmChain_0","label":"LLM Chain","name":"llmChain","type":"LLMChain","baseClasses":["LLMChain","BaseChain"],"category":"Chains","description":"Chain to run queries against LLMs","inputParams":[{"label":"Chain Name","name":"chainName","type":"string","placeholder":"Name Your Chain","optional":true,"id":"llmChain_0-input-chainName-string"}],"inputAnchors":[{"label":"Language Model","name":"model","type":"BaseLanguageModel","id":"llmChain_0-input-model-BaseLanguageModel"},{"label":"Prompt","name":"prompt","type":"BasePromptTemplate","id":"llmChain_0-input-prompt-BasePromptTemplate"}],"inputs":{"model":"{{ChatGLM_LLMs_0.data.instance}}","prompt":"{{promptTemplate_0.data.instance}}","chainName":""},"outputAnchors":[{"name":"output","label":"Output","type":"options","options":[{"id":"llmChain_0-output-llmChain-LLMChain|BaseChain","name":"llmChain","label":"LLM Chain","type":"LLMChain | BaseChain"},{"id":"llmChain_0-output-outputPrediction-string","name":"outputPrediction","label":"Output Prediction","type":"string"}],"default":"llmChain"}],"outputs":{"output":"llmChain"},"selected":false},"positionAbsolute":{"x":1375.7714911790354,"y":13.572682849463803},"selected":false,"dragging":false}],"edges":[{"source":"ChatGLM_LLMs_0","sourceHandle":"ChatGLM_LLMs_0-output-ChatGLM_LLMs-ChatGLM|LLM|BaseLLM|BaseLanguageModel","target":"llmChain_0","targetHandle":"llmChain_0-input-model-BaseLanguageModel","type":"buttonedge","id":"ChatGLM_LLMs_0-ChatGLM_LLMs_0-output-ChatGLM_LLMs-ChatGLM|LLM|BaseLLM|BaseLanguageModel-llmChain_0-llmChain_0-input-model-BaseLanguageModel","data":{"label":""}},{"source":"promptTemplate_0","sourceHandle":"promptTemplate_0-output-promptTemplate-PromptTemplate|BaseStringPromptTemplate|BasePromptTemplate","target":"llmChain_0","targetHandle":"llmChain_0-input-prompt-BasePromptTemplate","type":"buttonedge","id":"promptTemplate_0-promptTemplate_0-output-promptTemplate-PromptTemplate|BaseStringPromptTemplate|BasePromptTemplate-llmChain_0-llmChain_0-input-prompt-BasePromptTemplate","data":{"label":""}}]}
+{
+    "nodes": [
+        {
+            "width": 300,
+            "height": 491,
+            "id": "conversationalRetrievalQAChain_0",
+            "position": {
+                "x": 1838.0117150811811,
+                "y": 230.65007489387403
+            },
+            "type": "customNode",
+            "data": {
+                "id": "conversationalRetrievalQAChain_0",
+                "label": "Conversational Retrieval QA Chain",
+                "version": 1,
+                "name": "conversationalRetrievalQAChain",
+                "type": "ConversationalRetrievalQAChain",
+                "baseClasses": [
+                    "ConversationalRetrievalQAChain",
+                    "BaseChain",
+                    "Runnable"
+                ],
+                "category": "Chains",
+                "description": "Document QA - built on RetrievalQAChain to provide a chat history component",
+                "inputParams": [
+                    {
+                        "label": "Return Source Documents",
+                        "name": "returnSourceDocuments",
+                        "type": "boolean",
+                        "optional": true,
+                        "id": "conversationalRetrievalQAChain_0-input-returnSourceDocuments-boolean"
+                    },
+                    {
+                        "label": "System Message",
+                        "name": "systemMessagePrompt",
+                        "type": "string",
+                        "rows": 4,
+                        "additionalParams": true,
+                        "optional": true,
+                        "placeholder": "I want you to act as a document that I am having a conversation with. Your name is \"AI Assistant\". You will provide me with answers from the given info. If the answer is not included, say exactly \"Hmm, I am not sure.\" and stop after that. Refuse to answer any question not about the info. Never break character.",
+                        "id": "conversationalRetrievalQAChain_0-input-systemMessagePrompt-string"
+                    },
+                    {
+                        "label": "Chain Option",
+                        "name": "chainOption",
+                        "type": "options",
+                        "options": [
+                            {
+                                "label": "MapReduceDocumentsChain",
+                                "name": "map_reduce",
+                                "description": "Suitable for QA tasks over larger documents and can run the preprocessing step in parallel, reducing the running time"
+                            },
+                            {
+                                "label": "RefineDocumentsChain",
+                                "name": "refine",
+                                "description": "Suitable for QA tasks over a large number of documents."
+                            },
+                            {
+                                "label": "StuffDocumentsChain",
+                                "name": "stuff",
+                                "description": "Suitable for QA tasks over a small number of documents."
+                            }
+                        ],
+                        "additionalParams": true,
+                        "optional": true,
+                        "id": "conversationalRetrievalQAChain_0-input-chainOption-options"
+                    }
+                ],
+                "inputAnchors": [
+                    {
+                        "label": "Language Model",
+                        "name": "model",
+                        "type": "BaseLanguageModel",
+                        "id": "conversationalRetrievalQAChain_0-input-model-BaseLanguageModel"
+                    },
+                    {
+                        "label": "Vector Store Retriever",
+                        "name": "vectorStoreRetriever",
+                        "type": "BaseRetriever",
+                        "id": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever"
+                    },
+                    {
+                        "label": "Memory",
+                        "name": "memory",
+                        "type": "BaseMemory",
+                        "optional": true,
+                        "description": "If left empty, a default BufferMemory will be used",
+                        "id": "conversationalRetrievalQAChain_0-input-memory-BaseMemory"
+                    }
+                ],
+                "inputs": {
+                    "model": "{{openAI_0.data.instance}}",
+                    "vectorStoreRetriever": "{{memoryVectorStore_0.data.instance}}",
+                    "memory": "{{bufferMemory_0.data.instance}}",
+                    "returnSourceDocuments": true,
+                    "systemMessagePrompt": "",
+                    "chainOption": ""
+                },
+                "outputAnchors": [
+                    {
+                        "id": "conversationalRetrievalQAChain_0-output-conversationalRetrievalQAChain-ConversationalRetrievalQAChain|BaseChain|Runnable",
+                        "name": "conversationalRetrievalQAChain",
+                        "label": "ConversationalRetrievalQAChain",
+                        "type": "ConversationalRetrievalQAChain | BaseChain | Runnable"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 1838.0117150811811,
+                "y": 230.65007489387403
+            },
+            "dragging": false
+        },
+        {
+            "width": 300,
+            "height": 413,
+            "id": "docxFile_0",
+            "position": {
+                "x": 708.1062693642621,
+                "y": -51.04616127351936
+            },
+            "type": "customNode",
+            "data": {
+                "id": "docxFile_0",
+                "label": "Docx File",
+                "version": 1,
+                "name": "docxFile",
+                "type": "Document",
+                "baseClasses": [
+                    "Document"
+                ],
+                "category": "Document Loaders",
+                "description": "Load data from DOCX files",
+                "inputParams": [
+                    {
+                        "label": "Docx File",
+                        "name": "docxFile",
+                        "type": "file",
+                        "fileType": ".docx",
+                        "id": "docxFile_0-input-docxFile-file"
+                    },
+                    {
+                        "label": "Metadata",
+                        "name": "metadata",
+                        "type": "json",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "docxFile_0-input-metadata-json"
+                    }
+                ],
+                "inputAnchors": [
+                    {
+                        "label": "Text Splitter",
+                        "name": "textSplitter",
+                        "type": "TextSplitter",
+                        "optional": true,
+                        "id": "docxFile_0-input-textSplitter-TextSplitter"
+                    }
+                ],
+                "inputs": {
+                    "textSplitter": "{{characterTextSplitter_0.data.instance}}",
+                    "metadata": "",
+                    "docxFile": "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,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,filename:Pengli-CV.docx"
+                },
+                "outputAnchors": [
+                    {
+                        "id": "docxFile_0-output-docxFile-Document",
+                        "name": "docxFile",
+                        "label": "Document",
+                        "type": "Document"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 708.1062693642621,
+                "y": -51.04616127351936
+            },
+            "dragging": false
+        },
+        {
+            "width": 300,
+            "height": 476,
+            "id": "characterTextSplitter_0",
+            "position": {
+                "x": 308.30200114818933,
+                "y": 177.820179638497
+            },
+            "type": "customNode",
+            "data": {
+                "id": "characterTextSplitter_0",
+                "label": "Character Text Splitter",
+                "version": 1,
+                "name": "characterTextSplitter",
+                "type": "CharacterTextSplitter",
+                "baseClasses": [
+                    "CharacterTextSplitter",
+                    "TextSplitter",
+                    "BaseDocumentTransformer",
+                    "Runnable"
+                ],
+                "category": "Text Splitters",
+                "description": "splits only on one type of character (defaults to \"\\n\\n\").",
+                "inputParams": [
+                    {
+                        "label": "Separator",
+                        "name": "separator",
+                        "type": "string",
+                        "optional": true,
+                        "id": "characterTextSplitter_0-input-separator-string"
+                    },
+                    {
+                        "label": "Chunk Size",
+                        "name": "chunkSize",
+                        "type": "number",
+                        "default": 1000,
+                        "optional": true,
+                        "id": "characterTextSplitter_0-input-chunkSize-number"
+                    },
+                    {
+                        "label": "Chunk Overlap",
+                        "name": "chunkOverlap",
+                        "type": "number",
+                        "optional": true,
+                        "id": "characterTextSplitter_0-input-chunkOverlap-number"
+                    }
+                ],
+                "inputAnchors": [],
+                "inputs": {
+                    "separator": "\\n",
+                    "chunkSize": "100",
+                    "chunkOverlap": "10"
+                },
+                "outputAnchors": [
+                    {
+                        "id": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+                        "name": "characterTextSplitter",
+                        "label": "CharacterTextSplitter",
+                        "type": "CharacterTextSplitter | TextSplitter | BaseDocumentTransformer | Runnable"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 308.30200114818933,
+                "y": 177.820179638497
+            },
+            "dragging": false
+        },
+        {
+            "width": 300,
+            "height": 407,
+            "id": "memoryVectorStore_0",
+            "position": {
+                "x": 1108.0921132486824,
+                "y": 143.01487145352087
+            },
+            "type": "customNode",
+            "data": {
+                "id": "memoryVectorStore_0",
+                "label": "In-Memory Vector Store",
+                "version": 1,
+                "name": "memoryVectorStore",
+                "type": "Memory",
+                "baseClasses": [
+                    "Memory",
+                    "VectorStoreRetriever",
+                    "BaseRetriever"
+                ],
+                "category": "Vector Stores",
+                "description": "In-memory vectorstore that stores embeddings and does an exact, linear search for the most similar embeddings.",
+                "inputParams": [
+                    {
+                        "label": "Top K",
+                        "name": "topK",
+                        "description": "Number of top results to fetch. Default to 4",
+                        "placeholder": "4",
+                        "type": "number",
+                        "optional": true,
+                        "id": "memoryVectorStore_0-input-topK-number"
+                    }
+                ],
+                "inputAnchors": [
+                    {
+                        "label": "Document",
+                        "name": "document",
+                        "type": "Document",
+                        "list": true,
+                        "id": "memoryVectorStore_0-input-document-Document"
+                    },
+                    {
+                        "label": "Embeddings",
+                        "name": "embeddings",
+                        "type": "Embeddings",
+                        "id": "memoryVectorStore_0-input-embeddings-Embeddings"
+                    }
+                ],
+                "inputs": {
+                    "document": [
+                        "{{docxFile_0.data.instance}}"
+                    ],
+                    "embeddings": "{{openAIEmbeddings_0.data.instance}}",
+                    "topK": ""
+                },
+                "outputAnchors": [
+                    {
+                        "name": "output",
+                        "label": "Output",
+                        "type": "options",
+                        "options": [
+                            {
+                                "id": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+                                "name": "retriever",
+                                "label": "Memory Retriever",
+                                "type": "Memory | VectorStoreRetriever | BaseRetriever"
+                            },
+                            {
+                                "id": "memoryVectorStore_0-output-vectorStore-Memory|VectorStore",
+                                "name": "vectorStore",
+                                "label": "Memory Vector Store",
+                                "type": "Memory | VectorStore"
+                            }
+                        ],
+                        "default": "retriever"
+                    }
+                ],
+                "outputs": {
+                    "output": "retriever"
+                },
+                "selected": false,
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 1108.0921132486824,
+                "y": 143.01487145352087
+            },
+            "dragging": false
+        },
+        {
+            "width": 300,
+            "height": 378,
+            "id": "bufferMemory_0",
+            "position": {
+                "x": 1463.9635289832204,
+                "y": 595.8977323552876
+            },
+            "type": "customNode",
+            "data": {
+                "id": "bufferMemory_0",
+                "label": "Buffer Memory",
+                "version": 1,
+                "name": "bufferMemory",
+                "type": "BufferMemory",
+                "baseClasses": [
+                    "BufferMemory",
+                    "BaseChatMemory",
+                    "BaseMemory"
+                ],
+                "category": "Memory",
+                "description": "Remembers previous conversational back and forths directly",
+                "inputParams": [
+                    {
+                        "label": "Memory Key",
+                        "name": "memoryKey",
+                        "type": "string",
+                        "default": "chat_history",
+                        "id": "bufferMemory_0-input-memoryKey-string"
+                    },
+                    {
+                        "label": "Input Key",
+                        "name": "inputKey",
+                        "type": "string",
+                        "default": "input",
+                        "id": "bufferMemory_0-input-inputKey-string"
+                    }
+                ],
+                "inputAnchors": [],
+                "inputs": {
+                    "memoryKey": "chat_history",
+                    "inputKey": "input"
+                },
+                "outputAnchors": [
+                    {
+                        "id": "bufferMemory_0-output-bufferMemory-BufferMemory|BaseChatMemory|BaseMemory",
+                        "name": "bufferMemory",
+                        "label": "BufferMemory",
+                        "type": "BufferMemory | BaseChatMemory | BaseMemory"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 1463.9635289832204,
+                "y": 595.8977323552876
+            },
+            "dragging": false
+        },
+        {
+            "width": 300,
+            "height": 576,
+            "id": "openAI_0",
+            "position": {
+                "x": 1488.171752623841,
+                "y": -245.27030761321723
+            },
+            "type": "customNode",
+            "data": {
+                "id": "openAI_0",
+                "label": "OpenAI",
+                "version": 3,
+                "name": "openAI",
+                "type": "OpenAI",
+                "baseClasses": [
+                    "OpenAI",
+                    "BaseLLM",
+                    "BaseLanguageModel",
+                    "Runnable"
+                ],
+                "category": "LLMs",
+                "description": "Wrapper around OpenAI large language models",
+                "inputParams": [
+                    {
+                        "label": "Connect Credential",
+                        "name": "credential",
+                        "type": "credential",
+                        "credentialNames": [
+                            "openAIApi"
+                        ],
+                        "id": "openAI_0-input-credential-credential"
+                    },
+                    {
+                        "label": "Model Name",
+                        "name": "modelName",
+                        "type": "options",
+                        "options": [
+                            {
+                                "label": "gpt-3.5-turbo-instruct",
+                                "name": "gpt-3.5-turbo-instruct"
+                            },
+                            {
+                                "label": "babbage-002",
+                                "name": "babbage-002"
+                            },
+                            {
+                                "label": "davinci-002",
+                                "name": "davinci-002"
+                            }
+                        ],
+                        "default": "gpt-3.5-turbo-instruct",
+                        "optional": true,
+                        "id": "openAI_0-input-modelName-options"
+                    },
+                    {
+                        "label": "Temperature",
+                        "name": "temperature",
+                        "type": "number",
+                        "step": 0.1,
+                        "default": 0.7,
+                        "optional": true,
+                        "id": "openAI_0-input-temperature-number"
+                    },
+                    {
+                        "label": "Max Tokens",
+                        "name": "maxTokens",
+                        "type": "number",
+                        "step": 1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-maxTokens-number"
+                    },
+                    {
+                        "label": "Top Probability",
+                        "name": "topP",
+                        "type": "number",
+                        "step": 0.1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-topP-number"
+                    },
+                    {
+                        "label": "Best Of",
+                        "name": "bestOf",
+                        "type": "number",
+                        "step": 1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-bestOf-number"
+                    },
+                    {
+                        "label": "Frequency Penalty",
+                        "name": "frequencyPenalty",
+                        "type": "number",
+                        "step": 0.1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-frequencyPenalty-number"
+                    },
+                    {
+                        "label": "Presence Penalty",
+                        "name": "presencePenalty",
+                        "type": "number",
+                        "step": 0.1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-presencePenalty-number"
+                    },
+                    {
+                        "label": "Batch Size",
+                        "name": "batchSize",
+                        "type": "number",
+                        "step": 1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-batchSize-number"
+                    },
+                    {
+                        "label": "Timeout",
+                        "name": "timeout",
+                        "type": "number",
+                        "step": 1,
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-timeout-number"
+                    },
+                    {
+                        "label": "BasePath",
+                        "name": "basepath",
+                        "type": "string",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-basepath-string"
+                    },
+                    {
+                        "label": "BaseOptions",
+                        "name": "baseOptions",
+                        "type": "json",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAI_0-input-baseOptions-json"
+                    }
+                ],
+                "inputAnchors": [
+                    {
+                        "label": "Cache",
+                        "name": "cache",
+                        "type": "BaseCache",
+                        "optional": true,
+                        "id": "openAI_0-input-cache-BaseCache"
+                    }
+                ],
+                "inputs": {
+                    "cache": "",
+                    "modelName": "gpt-3.5-turbo-instruct",
+                    "temperature": 0.7,
+                    "maxTokens": "",
+                    "topP": "",
+                    "bestOf": "",
+                    "frequencyPenalty": "",
+                    "presencePenalty": "",
+                    "batchSize": "",
+                    "timeout": "",
+                    "basepath": "",
+                    "baseOptions": ""
+                },
+                "outputAnchors": [
+                    {
+                        "id": "openAI_0-output-openAI-OpenAI|BaseLLM|BaseLanguageModel|Runnable",
+                        "name": "openAI",
+                        "label": "OpenAI",
+                        "type": "OpenAI | BaseLLM | BaseLanguageModel | Runnable"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credential": "5de1229a-fcf9-407d-9346-da1114e4f462",
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": 1488.171752623841,
+                "y": -245.27030761321723
+            }
+        },
+        {
+            "width": 300,
+            "height": 330,
+            "id": "openAIEmbeddings_0",
+            "position": {
+                "x": 659.1048866931711,
+                "y": 669.7473349150166
+            },
+            "type": "customNode",
+            "data": {
+                "id": "openAIEmbeddings_0",
+                "label": "OpenAI Embeddings",
+                "version": 1,
+                "name": "openAIEmbeddings",
+                "type": "OpenAIEmbeddings",
+                "baseClasses": [
+                    "OpenAIEmbeddings",
+                    "Embeddings"
+                ],
+                "category": "Embeddings",
+                "description": "OpenAI API to generate embeddings for a given text",
+                "inputParams": [
+                    {
+                        "label": "Connect Credential",
+                        "name": "credential",
+                        "type": "credential",
+                        "credentialNames": [
+                            "openAIApi"
+                        ],
+                        "id": "openAIEmbeddings_0-input-credential-credential"
+                    },
+                    {
+                        "label": "Strip New Lines",
+                        "name": "stripNewLines",
+                        "type": "boolean",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAIEmbeddings_0-input-stripNewLines-boolean"
+                    },
+                    {
+                        "label": "Batch Size",
+                        "name": "batchSize",
+                        "type": "number",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAIEmbeddings_0-input-batchSize-number"
+                    },
+                    {
+                        "label": "Timeout",
+                        "name": "timeout",
+                        "type": "number",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAIEmbeddings_0-input-timeout-number"
+                    },
+                    {
+                        "label": "BasePath",
+                        "name": "basepath",
+                        "type": "string",
+                        "optional": true,
+                        "additionalParams": true,
+                        "id": "openAIEmbeddings_0-input-basepath-string"
+                    }
+                ],
+                "inputAnchors": [],
+                "inputs": {
+                    "stripNewLines": "",
+                    "batchSize": "",
+                    "timeout": "",
+                    "basepath": ""
+                },
+                "outputAnchors": [
+                    {
+                        "id": "openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
+                        "name": "openAIEmbeddings",
+                        "label": "OpenAIEmbeddings",
+                        "type": "OpenAIEmbeddings | Embeddings"
+                    }
+                ],
+                "outputs": {},
+                "selected": false,
+                "credential": "5de1229a-fcf9-407d-9346-da1114e4f462",
+                "credentialRecord": {}
+            },
+            "selected": false,
+            "positionAbsolute": {
+                "x": 659.1048866931711,
+                "y": 669.7473349150166
+            },
+            "dragging": false
+        }
+    ],
+    "edges": [
+        {
+            "source": "characterTextSplitter_0",
+            "sourceHandle": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+            "target": "docxFile_0",
+            "targetHandle": "docxFile_0-input-textSplitter-TextSplitter",
+            "type": "buttonedge",
+            "id": "characterTextSplitter_0-characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-docxFile_0-docxFile_0-input-textSplitter-TextSplitter",
+            "data": {
+                "label": ""
+            }
+        },
+        {
+            "source": "docxFile_0",
+            "sourceHandle": "docxFile_0-output-docxFile-Document",
+            "target": "memoryVectorStore_0",
+            "targetHandle": "memoryVectorStore_0-input-document-Document",
+            "type": "buttonedge",
+            "id": "docxFile_0-docxFile_0-output-docxFile-Document-memoryVectorStore_0-memoryVectorStore_0-input-document-Document",
+            "data": {
+                "label": ""
+            }
+        },
+        {
+            "source": "memoryVectorStore_0",
+            "sourceHandle": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+            "target": "conversationalRetrievalQAChain_0",
+            "targetHandle": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever",
+            "type": "buttonedge",
+            "id": "memoryVectorStore_0-memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever",
+            "data": {
+                "label": ""
+            }
+        },
+        {
+            "source": "bufferMemory_0",
+            "sourceHandle": "bufferMemory_0-output-bufferMemory-BufferMemory|BaseChatMemory|BaseMemory",
+            "target": "conversationalRetrievalQAChain_0",
+            "targetHandle": "conversationalRetrievalQAChain_0-input-memory-BaseMemory",
+            "type": "buttonedge",
+            "id": "bufferMemory_0-bufferMemory_0-output-bufferMemory-BufferMemory|BaseChatMemory|BaseMemory-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-memory-BaseMemory",
+            "data": {
+                "label": ""
+            }
+        },
+        {
+            "source": "openAI_0",
+            "sourceHandle": "openAI_0-output-openAI-OpenAI|BaseLLM|BaseLanguageModel|Runnable",
+            "target": "conversationalRetrievalQAChain_0",
+            "targetHandle": "conversationalRetrievalQAChain_0-input-model-BaseLanguageModel",
+            "type": "buttonedge",
+            "id": "openAI_0-openAI_0-output-openAI-OpenAI|BaseLLM|BaseLanguageModel|Runnable-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-model-BaseLanguageModel",
+            "data": {
+                "label": ""
+            }
+        },
+        {
+            "source": "openAIEmbeddings_0",
+            "sourceHandle": "openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
+            "target": "memoryVectorStore_0",
+            "targetHandle": "memoryVectorStore_0-input-embeddings-Embeddings",
+            "type": "buttonedge",
+            "id": "openAIEmbeddings_0-openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings-memoryVectorStore_0-memoryVectorStore_0-input-embeddings-Embeddings",
+            "data": {
+                "label": ""
+            }
+        }
+    ],
+    "credentialRecords": [
+        {
+            "id": "5de1229a-fcf9-407d-9346-da1114e4f462",
+            "name": "openai-fake",
+            "credentialName": "openAIApi",
+            "encryptedData": "U2FsdGVkX19hAndWfDKLdVu9xsdQ+aIpa4uHcjZsWtYRtPGWzZqa+BO5hcGGFbv6Jt38i5M42UIJMZ5osEgx5k5AiDBE4K8vF5PEbHOZuP/enBRt7kSsGxJXqmeBUsGu",
+            "owner": "bbf6f034-f11e-4ecd-9e72-c7af33e7279e",
+            "createdDate": "2023-11-13T01:29:03.000Z",
+            "updatedDate": "2023-11-13T01:29:03.000Z"
+        },
+        {
+            "id": "5de1229a-fcf9-407d-9346-da1114e4f462",
+            "name": "openai-fake",
+            "credentialName": "openAIApi",
+            "encryptedData": "U2FsdGVkX19hAndWfDKLdVu9xsdQ+aIpa4uHcjZsWtYRtPGWzZqa+BO5hcGGFbv6Jt38i5M42UIJMZ5osEgx5k5AiDBE4K8vF5PEbHOZuP/enBRt7kSsGxJXqmeBUsGu",
+            "owner": "bbf6f034-f11e-4ecd-9e72-c7af33e7279e",
+            "createdDate": "2023-11-13T01:29:03.000Z",
+            "updatedDate": "2023-11-13T01:29:03.000Z"
+        }
+    ]
+}

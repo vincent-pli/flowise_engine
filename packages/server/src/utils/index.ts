@@ -19,11 +19,16 @@ import {
 import { cloneDeep, get, omit, merge } from 'lodash'
 import { ICommonObject, getInputVariables, IDatabaseEntity } from 'flowise-components'
 import { scryptSync, randomBytes, timingSafeEqual } from 'crypto'
+import { DataSource } from 'typeorm'
+import { CachePool } from '../CachePool'
+import { ChatMessage } from '../entity/ChatMessage'
+import { Credential } from '../entity/Credential'
 
 import { AES, enc } from 'crypto-js'
 import { NODE } from '../Constants'
 
 const QUESTION_VAR_PREFIX = 'question'
+export const databaseEntities: IDatabaseEntity = { ChatMessage: ChatMessage, Credential: Credential }
 const REDACTED_CREDENTIAL_VALUE = '_FLOWISE_BLANK_07167752-1a71-43b1-bf8f-4f32252165db'
 /**
  * Returns the home folder path of the user if
@@ -178,6 +183,9 @@ export const getNodeFilePath = (nodeToExecuteData: INodeData, componentVersionNo
         // console.log('nodeToExecuteData:id,name,type,version', nodeToExecuteData.id, nodeToExecuteData.name, nodeToExecuteData.type, nodeToExecuteData.version)
     }
     let nodeVersion = nodeToExecuteData.version ? nodeToExecuteData.version : NODE.DEFAULT_VERSION
+    console.log("xxxxxxx")
+    console.log(nodeToExecuteData.version)
+    console.log(componentVersionNodes[nodeToExecuteData.name])
     nodeFilePath = componentVersionNodes[nodeToExecuteData.name][nodeVersion].filePath as string
     // console.log('nodeVersion:nodeFilePath', nodeVersion, nodeFilePath)
     return nodeFilePath;
@@ -199,7 +207,9 @@ export const buildLangchain = async (
     depthQueue: IDepthQueue,
     componentVersionNodes: IComponentVersionNodes,
     question: string,
+    appDataSource: DataSource,
     overrideConfig?: ICommonObject,
+    cachePool?: CachePool
 ) => {
     const flowNodes = cloneDeep(reactFlowNodes)
 
@@ -233,6 +243,9 @@ export const buildLangchain = async (
             const reactFlowNodeData: INodeData = resolveVariables(flowNodeData, flowNodes, question)
 
             flowNodes[nodeIndex].data.instance = await newNodeInstance.init(reactFlowNodeData, question, {
+                appDataSource,
+                databaseEntities,
+                cachePool
             })
         } catch (e: any) {
             console.error(e)
